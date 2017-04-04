@@ -52,20 +52,19 @@
             .appendTo("head");
         
         settings.completionObject.on("click", function(event) {
-            
            input_box.val(event.target.innerHTML); 
         });
         
         //  Check each keyup for search criteria
         input_box.on('keyup dblclick', (function() {
             //  Make sure the length is = or > min text length
-            if ($(this).val().length >= settings.minLength) {
+            if (input_box.val().length >= settings.minLength) {
                 $.ajax({
                    type: settings.type,
                    url: settings.url,
-                   dataType: "text",
+                   dataType: "json",
                    data: { 
-                       'key':$(this).val(),
+                       'key':input_box.val(),
                        'maxResults': settings.maxResults
                    },
                    success: function(data){
@@ -77,13 +76,25 @@
                                'height': 'auto',
                                'display': 'inline-block'
                            });
-                           settings.completionObject.html("<ul id='thinker_list'>" + data + "</ul>")
+                           var dataElements = "";
+                           var count = (data.items.length < settings.maxResults) ? data.items.length : settings.maxResults;
+                           for (var x = 0; x < count; x++) {
+                               dataElements += "<li>" + data.items[x] + "</li>";
+                           }
+                           settings.completionObject.html("<ul id='thinker_list'>" + dataElements + "</ul>")
                        } else {
                            settings.completionObject.html("");
                            settings.completionObject.css({ 'display': 'none'});
                        }
                    },
                     error: function(jqXHR, textStatus, errorThrown) {
+                        settings.completionObject.css({ 
+                               'top': pos_top + pos_height + 15,
+                               'left': pos_left,
+                               'width': pos_width,
+                               'height': 'auto',
+                               'display': 'inline-block'
+                           });
                         settings.completionObject.html(textStatus + ": " + errorThrown);
                     }
                 })
