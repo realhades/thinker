@@ -11,21 +11,23 @@ $("#inputboxid").thinker();
 <div id="completion-results"></div>
 ```
 Create a thinker.php file where server side processing is done using the sent data 'key' and 'maxResults'
-**Note: Currently each individual data piece needs to be wrapped in a `<li>...</li>` tag**
+return with key 'items'
 Example thinker.php
 ```
   <?php 
-  $sql = "SELECT TOP " . $_POST['maxResults'] . " [column] FROM [table] WHERE [column] LIKE (?)"; 
+  $sql = "SELECT tx_acctid FROM dbo.tblProspects WHERE tx_acctid LIKE (?)"; 
   $param = ['%' . $_POST['key'] . '%'];
   $stmt = sqlsrv_query($conn, $sql, $param);  
   if (!$stmt) {
-	  die( print_r( sqlsrv_errors(), true));
+	die( print_r( sqlsrv_errors(), true));
   }
-  $result = "";
+
+  $result = array();
   while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC)) {
-    $result = $result . "<li>" . $row[0] . "</li>";
+  	array_push($result, $row[0]);
   }
-  echo $result;
+
+echo json_encode(array('items' => $result));
   ?>
 ```
   
@@ -42,5 +44,5 @@ To use
   backgroundColorHover: (default 'blue')
   textColorHover: (default 'white')
   minLength: Minimun characters needed before searching (default 1)
-  maxResults: Max results to show ** Sends to PHP file, does not enforce yet (default 10)
+  maxResults: Max results to show (default 10)
   ```
