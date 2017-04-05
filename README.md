@@ -3,12 +3,11 @@ Use jQuery to give suggestions as typing in an input box
 
 ## To Use
 Include the thinker.js file after jQuery Example `<script src="thinker.js"></script>`
-Set thinker to desired input box and create a div with an id of 'completion-results': 
+Set thinker to desired input box
 Example
 ```
 $("#inputboxid").thinker();
-...
-<div id="completion-results"></div>
+
 ```
 Create a thinker.php file where server side processing is done using the sent data 'key' and 'maxResults'
 return with key 'items' as a JSON type.
@@ -41,7 +40,6 @@ To use
 
   url: link to data source (default 'thinker.php')
   type: GET or POST (default 'POST')
-  completionObject: ID of DOM elemnt, usually a div (default $( "#completion-results" ))
   backgroundColor: (default 'white')
   textColor: (default 'black')
   backgroundColorHover: (default 'blue')
