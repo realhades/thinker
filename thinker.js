@@ -74,7 +74,7 @@
                        'maxResults': settings.maxResults
                    },
                    success: function(data){
-                       if (data.length !== 0) { 
+                       if (data.items.length !== 0) { 
                            // Postition the div below the input box and sets its width
                            $div.css({ 
                                'top': pos_top + pos_height + 15,
