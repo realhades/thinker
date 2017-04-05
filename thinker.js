@@ -27,7 +27,7 @@
         $div.css({ 
             'display': 'none',
             'position': 'fixed',
-            'z-index': 2,
+            'z-index': 0,
             'background-color': settings.backgroundColor,
             'color': settings.textColor
         });
@@ -61,8 +61,26 @@
            input_box.val(event.target.innerHTML); 
         });
         
+        $(window).on('scroll resize', function() {
+            position = input_box.position();
+            pos_height = input_box.height();
+            pos_width = input_box.width();
+            pos_left = position.left;
+            pos_top = position.top;
+            $div.css({ 
+               'top': pos_top + pos_height - $(window).scrollTop() + 10,
+               'left': pos_left - $(window).scrollLeft(),
+               'width': pos_width
+            });
+        })
+        
         //  Check each keyup and double-click for search criteria
         input_box.on('keyup dblclick', (function() {
+            position = input_box.position();
+            pos_height = input_box.height();
+            pos_width = input_box.width();
+            pos_left = position.left;
+            pos_top = position.top;
             //  Make sure the length is = or > minLength
             if (input_box.val().length >= settings.minLength) {
                 $.ajax({
@@ -77,7 +95,7 @@
                        if (data.items.length !== 0) { 
                            // Postition the div below the input box and sets its width
                            $div.css({ 
-                               'top': pos_top + pos_height + 15,
+                               'top': pos_top + pos_height + 10,
                                'left': pos_left,
                                'width': pos_width,
                                'height': 'auto',
@@ -98,7 +116,7 @@
                    },
                     error: function(jqXHR, textStatus, errorThrown) {
                         $div.css({ 
-                               'top': pos_top + pos_height + 15,
+                               'top': pos_top + pos_height,
                                'left': pos_left,
                                'width': pos_width,
                                'height': 'auto',
