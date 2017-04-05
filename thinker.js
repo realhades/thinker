@@ -8,12 +8,13 @@
         var pos_left = position.left, 
             pos_top = position.top;
         var input_box = $(this);
+        // Create the menu container to hold the list
+        var $div = $("<div id='thinker-results'></div>").appendTo("body");
         
         // Default setting, can override when initializing
         var settings = $.extend({
             url: 'thinker.php',
             type: 'POST',
-            completionObject: $( "#completion-results" ),
             backgroundColor: 'white',
             textColor: 'black',
             backgroundColorHover: 'blue',
@@ -23,7 +24,7 @@
         }, options);
         
         // Style and hide the div element that will contain the list
-        settings.completionObject.css({ 
+        $div.css({ 
             'display': 'none',
             'position': 'fixed',
             'z-index': 2,
@@ -56,7 +57,7 @@
             .appendTo("head");
         
         // list-item was clicked, change the input value to match
-        settings.completionObject.on("click", function(event) {
+        $div.on("click", function(event) {
            input_box.val(event.target.innerHTML); 
         });
         
@@ -75,7 +76,7 @@
                    success: function(data){
                        if (data.length !== 0) { 
                            // Postition the div below the input box and sets its width
-                           settings.completionObject.css({ 
+                           $div.css({ 
                                'top': pos_top + pos_height + 15,
                                'left': pos_left,
                                'width': pos_width,
@@ -89,14 +90,14 @@
                                dataElements += "<li>" + data.items[x] + "</li>";
                            }
                            // create out ul dom object
-                           settings.completionObject.html("<ul id='thinker_list'>" + dataElements + "</ul>")
+                           $div.html("<ul id='thinker_list'>" + dataElements + "</ul>")
                        } else {  // No data matched, hide div
-                           settings.completionObject.html("");
-                           settings.completionObject.css({ 'display': 'none'});
+                           $div.html("");
+                           $div.css({ 'display': 'none'});
                        }
                    },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        settings.completionObject.css({ 
+                        $div.css({ 
                                'top': pos_top + pos_height + 15,
                                'left': pos_left,
                                'width': pos_width,
@@ -104,19 +105,19 @@
                                'display': 'inline-block'
                            });
                         // For troublshooting, set the html as error message when fails
-                        settings.completionObject.html(textStatus + ": " + errorThrown);
+                        $div.html(textStatus + ": " + errorThrown);
                     }
                 })
             } else {
                 // length of input is < minLength, hide the div
-                settings.completionObject.css({ 
+                $div.css({ 
                     'display': 'none' });
             }
         }));
         
         //  User clicked outside of input box, hide the div
         input_box.parents().click(function() {
-            settings.completionObject.css( "display", "none" );
+            $div.css( "display", "none" );
         });
     };
  
