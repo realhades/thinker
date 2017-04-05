@@ -47,3 +47,6 @@ To use
   minLength: Minimun characters needed before searching (default 1)
   maxResults: Max results to show (default 10)
   ```
+### v1.0 Released 4/4/17
+
+#### [MIT License](https://opensource.org/licenses/mit-license.php)
