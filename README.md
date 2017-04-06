@@ -11,25 +11,21 @@ $("#inputboxid").thinker();
 ```
 Create a thinker.php file where server side processing is done using the sent data 'key' and 'maxResults'
 return with key 'items' as a JSON type.
-Use your own custom way of filtering through data, as in below is searches for if the query contains the 'key' by 
-using wildcards on either side.  Could check if starts with key by using wildcard at end of the key.
+Use your own custom way of filtering through data, as in below is searches the array to see if it contains the 'key'.
 Example thinker.php
 ```
   <?php 
-  $sql = "SELECT [column] FROM [table] WHERE [column] LIKE (?)"; 
-  // Append wildcards to check if key is found anywhere in column
-  $param = ['%' . $_POST['key'] . '%'];
-  $stmt = sqlsrv_query($conn, $sql, $param);  
-  if (!$stmt) {
-	die( print_r( sqlsrv_errors(), true));
-  }
-
+  $items_to_check = ["Cheese", "Chili", "Hamburger", "Ham Sandwich"];
   $result = array();
-  while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC)) {
-  	array_push($result, $row[0]);
-  }
-// Encode and put key as 'items' so thinker.js can find the data
-echo json_encode(array('items' => $result));
+  $txtkey = strtolower($_POST['key']);
+
+  for ($x = 0; $x < sizeof($items_to_check); $x++) {
+    $lcase = strtolower($items_to_check[$x]);
+    if (strpos($lcase, $txtkey) !== false) { 
+        $result[] = $items_to_check[$x];
+    }
+  // Encode and put key as 'items' so thinker.js can find the data
+  echo json_encode(array('items' => $result));
   ?>
 ```
   
