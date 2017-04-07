@@ -81,6 +81,7 @@
             pos_width = input_box.width();
             pos_left = position.left;
             pos_top = position.top;
+            
             //  Make sure the length is = or > minLength
             if (input_box.val().length >= settings.minLength) {
                 $.ajax({
@@ -93,14 +94,6 @@
                    },
                    success: function(data){
                        if (data.items.length !== 0) { 
-                           // Postition the div below the input box and sets its width
-                           $div.css({ 
-                               'top': pos_top + pos_height + 10,
-                               'left': pos_left,
-                               'width': pos_width,
-                               'height': 'auto',
-                               'display': 'inline-block'
-                           });
                            var dataElements = "";
                            // Enforce maxResults - if the data has more than the maxResults then show only up to maxResults
                            var count = (data.items.length < settings.maxResults) ? data.items.length : settings.maxResults;
@@ -109,6 +102,14 @@
                            }
                            // create out ul dom object
                            $div.html("<ul id='thinker_list'>" + dataElements + "</ul>")
+                           // Postition the div below the input box and sets its width
+                           $div.css({ 
+                               'top': pos_top + pos_height - $(window).scrollTop() + 10,
+                               'left': pos_left - $(window).scrollLeft(),
+                               'width': pos_width,
+                               'height': 'auto',
+                               'display': 'inline-block'
+                           });
                        } else {  // No data matched, hide div
                            $div.html("");
                            $div.css({ 'display': 'none'});
