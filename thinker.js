@@ -1,5 +1,5 @@
 (function ( $ ) {
- 'use strict';
+ 'use strict'
     $.fn.thinker = function( options ) {
        // Get postition of input box and set a reference to it (input_box)
         var position = $(this).position(),
