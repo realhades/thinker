@@ -5,12 +5,12 @@
         var position = $(this).position(),
             pos_height = $(this).height(),
             pos_width = $(this).width();
-        var pos_left = position.left, 
+        var pos_left = position.left,
             pos_top = position.top;
         var input_box = $(this);
         // Create the menu container to hold the list
         var $div = $("<div id='thinker-results'></div>").appendTo("body");
-        
+
         // Default setting, can override when initializing
         var settings = $.extend({
             url: 'thinker.php',
@@ -22,16 +22,16 @@
             minLength: 1,
             maxResults: 10
         }, options);
-        
+
         // Style and hide the div element that will contain the list
-        $div.css({ 
+        $div.css({
             'display': 'none',
             'position': 'fixed',
             'z-index': 0,
             'background-color': settings.backgroundColor,
             'color': settings.textColor
         });
-        
+
         // Style the unorder-list and list-items then append them to head
         $("<style>")
             .prop("type", "text/css")
@@ -56,24 +56,26 @@
                 color:" + settings.textColorHover + ";")
             .appendTo("head");
         
+        $(input_box).attr('autocomplete', 'off');
+        
         // list-item was clicked, change the input value to match
         $div.on("click", function(event) {
-           input_box.val(event.target.innerHTML); 
+           input_box.val(event.target.innerHTML);
         });
-        
+
         $(window).on('scroll resize', function() {
             position = input_box.position();
             pos_height = input_box.height();
             pos_width = input_box.width();
             pos_left = position.left;
             pos_top = position.top;
-            $div.css({ 
+            $div.css({
                'top': pos_top + pos_height - $(window).scrollTop() + 10,
                'left': pos_left - $(window).scrollLeft(),
                'width': pos_width
             });
         })
-        
+
         //  Check each keyup and double-click for search criteria
         input_box.on('keyup dblclick', (function() {
             position = input_box.position();
@@ -81,19 +83,19 @@
             pos_width = input_box.width();
             pos_left = position.left;
             pos_top = position.top;
-            
+
             //  Make sure the length is = or > minLength
             if (input_box.val().length >= settings.minLength) {
                 $.ajax({
                    type: settings.type,
                    url: settings.url,
                    dataType: "json",
-                   data: { 
+                   data: {
                        'key':input_box.val(),
                        'maxResults': settings.maxResults
                    },
                    success: function(data){
-                       if (data.items.length !== 0) { 
+                       if (data.items.length !== 0) {
                            var dataElements = "";
                            // Enforce maxResults - if the data has more than the maxResults then show only up to maxResults
                            var count = (data.items.length < settings.maxResults) ? data.items.length : settings.maxResults;
@@ -103,7 +105,7 @@
                            // create out ul dom object
                            $div.html("<ul id='thinker_list'>" + dataElements + "</ul>")
                            // Postition the div below the input box and sets its width
-                           $div.css({ 
+                           $div.css({
                                'top': pos_top + pos_height - $(window).scrollTop() + 10,
                                'left': pos_left - $(window).scrollLeft(),
                                'width': pos_width,
@@ -116,7 +118,7 @@
                        }
                    },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        $div.css({ 
+                        $div.css({
                                'top': pos_top + pos_height,
                                'left': pos_left,
                                'width': pos_width,
@@ -129,15 +131,15 @@
                 })
             } else {
                 // length of input is < minLength, hide the div
-                $div.css({ 
+                $div.css({
                     'display': 'none' });
             }
         }));
-        
+
         //  User clicked outside of input box, hide the div
         input_box.parents().click(function() {
             $div.css( "display", "none" );
         });
     };
- 
+
 }( jQuery ));
