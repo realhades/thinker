@@ -1,5 +1,5 @@
 (function ( $ ) {
- 'use strict'
+ 'use strict';
     $.fn.thinker = function( options ) {
        // Get postition of input box and set a reference to it (input_box)
         var position = $(this).position(),
@@ -55,9 +55,9 @@
                 background-color:" + settings.backgroundColorHover + ";\
                 color:" + settings.textColorHover + ";")
             .appendTo("head");
-        
+
         $(input_box).attr('autocomplete', 'off');
-        
+
         // list-item was clicked, change the input value to match
         $div.on("click", function(event) {
            input_box.val(event.target.innerHTML);
