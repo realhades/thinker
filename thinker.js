@@ -78,7 +78,7 @@
 
         //  Check each keyup and double-click for search criteria
         input_box.on('keyup dblclick', (function() {
-            position = input_box.position();
+            position = input_box.offset();
             pos_height = input_box.height();
             pos_width = input_box.width();
             pos_left = position.left;
