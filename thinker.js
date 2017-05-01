@@ -1,8 +1,12 @@
 (function ( $ ) {
  'use strict';
     $.fn.thinker = function( options ) {
+<<<<<<< HEAD
        // Get postition of input box
         // and set a reference to it (input_box)
+=======
+       // Get postition of input box and set a reference to it (input_box)
+>>>>>>> 578eb91c79a34b9baf88cd849abea9d873a5a12d
         var position = $(this).position(),
             pos_height = $(this).height(),
             pos_width = $(this).width();
@@ -87,7 +91,7 @@
 
             //  Make sure the length is = or > minLength
             if (input_box.val().length >= settings.minLength) {
-                $.ajax({
+                $.ajax({dc
                    type: settings.type,
                    url: settings.url,
                    dataType: "json",
