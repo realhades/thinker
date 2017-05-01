@@ -91,7 +91,7 @@
 
             //  Make sure the length is = or > minLength
             if (input_box.val().length >= settings.minLength) {
-                $.ajax({dc
+                $.ajax({
                    type: settings.type,
                    url: settings.url,
                    dataType: "json",
