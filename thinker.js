@@ -1,11 +1,7 @@
 (function ( $ ) {
  'use strict';
     $.fn.thinker = function( options ) {
-
        // Get postition of input box and set a reference to it (input_box)
-
-       // Get postition of input box and set a reference to it (input_box)
-
         var position = $(this).position(),
             pos_height = $(this).height(),
             pos_width = $(this).width();
@@ -24,7 +20,8 @@
             backgroundColorHover: 'blue',
             textColorHover: 'white',
             minLength: 1,
-            maxResults: 10
+            maxResults: 10,
+            fontSize: "1em"
         }, options);
 
         // Style and hide the div element that will contain the list
@@ -33,7 +30,8 @@
             'position': 'fixed',
             'z-index': 0,
             'background-color': settings.backgroundColor,
-            'color': settings.textColor
+            'color': settings.textColor,
+            'font-size': settings.fontSize
         });
 
         // Style the unorder-list and list-items then append them to head
