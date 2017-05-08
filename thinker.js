@@ -21,9 +21,10 @@
             textColorHover: 'white',
             minLength: 1,
             maxResults: 10,
-            fontSize: "1em"
+            fontSize: "1em",
+            after:  function() {}
         }, options);
-
+        
         // Style and hide the div element that will contain the list
         $div.css({
             'display': 'none',
@@ -63,6 +64,7 @@
         // list-item was clicked, change the input value to match
         $div.on("click", function(event) {
            input_box.val(event.target.innerHTML);
+            if (settings.after) settings.after();
         });
 
         $(window).on('scroll resize', function() {
@@ -118,6 +120,7 @@
                            $div.html("");
                            $div.css({ 'display': 'none'});
                        }
+                       
                    },
                     error: function(jqXHR, textStatus, errorThrown) {
                         $div.css({
@@ -141,7 +144,9 @@
         //  User clicked outside of input box, hide the div
         input_box.parents().click(function() {
             $div.css( "display", "none" );
+            if (settings.after) settings.after();
         });
+        
     };
 
 }( jQuery ));
