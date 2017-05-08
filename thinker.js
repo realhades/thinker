@@ -22,7 +22,7 @@
             minLength: 1,
             maxResults: 10,
             fontSize: "1em",
-            after:  function() {}
+            after:  function(input_box) {}
         }, options);
         
         // Style and hide the div element that will contain the list
@@ -64,7 +64,7 @@
         // list-item was clicked, change the input value to match
         $div.on("click", function(event) {
            input_box.val(event.target.innerHTML);
-            if (settings.after) settings.after();
+            if (settings.after) settings.after(input_box);
         });
 
         $(window).on('scroll resize', function() {
@@ -144,7 +144,7 @@
         //  User clicked outside of input box, hide the div
         input_box.parents().click(function() {
             $div.css( "display", "none" );
-            if (settings.after) settings.after();
+//            if (settings.after) settings.after(input_box);
         });
         
     };
