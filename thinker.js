@@ -8,8 +8,12 @@
         var pos_left = position.left,
             pos_top = position.top;
         var input_box = $(this);
-        // Create the menu container to hold the list
-        var $div = $("<div id='thinker-results'></div>").appendTo("body");
+        // Create the menu container to hold the list or assign element
+        if ($('#thinker-results').length) {
+            var $div = $('#thinker-results');
+        } else {
+            var $div = $("<div id='thinker-results'></div>").appendTo("body");
+        }
 
         // Default setting, can override when initializing
         var settings = $.extend({
@@ -24,7 +28,7 @@
             fontSize: "1em",
             after:  function(input_box) {}
         }, options);
-        
+
         // Style and hide the div element that will contain the list
         $div.css({
             'display': 'none',
@@ -63,7 +67,8 @@
 
         // list-item was clicked, change the input value to match
         $div.on("click", function(event) {
-           input_box.val(event.target.innerHTML);
+            input_box.val(event.target.innerHTML);
+//            input_box.focus();
             if (settings.after) settings.after(input_box);
         });
 
@@ -88,7 +93,7 @@
             pos_left = position.left;
             pos_top = position.top;
 
-            //  Make sure the length is = or > minLength
+            //  Make sure the length is >= minLength
             if (input_box.val().length >= settings.minLength) {
                 $.ajax({
                    type: settings.type,
@@ -120,7 +125,7 @@
                            $div.html("");
                            $div.css({ 'display': 'none'});
                        }
-                       
+
                    },
                     error: function(jqXHR, textStatus, errorThrown) {
                         $div.css({
@@ -144,9 +149,10 @@
         //  User clicked outside of input box, hide the div
         input_box.parents().click(function() {
             $div.css( "display", "none" );
-//            if (settings.after) settings.after(input_box);
+//            input_box.focus();
+            if (settings.after) settings.after(input_box);
         });
-        
+
     };
 
 }( jQuery ));
